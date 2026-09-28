@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Broker - Solicitud de Crédito</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .form-section {
+      padding: 100px 0;
+      background: var(--bg-light);
+      min-height: calc(100vh - 300px);
+    }
+    .credit-box {
+      max-width: 650px;
+      margin: 0 auto;
+      background: white;
+      padding: 48px;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+    }
+    .form-row {
+      display: flex; gap: 24px;
+    }
+    .form-row .form-group { flex: 1; }
+    
+    @media (max-width: 600px) {
+      .form-row { flex-direction: column; gap: 0; }
+      .credit-box { padding: 32px 20px; }
+      .form-group label { font-size: 0.8rem; }
+    }
+
+    .file-drop-area {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      background: #f8fafc;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .file-drop-area:hover, .file-drop-area.is-active {
+      border-color: var(--primary);
+      background: #f1f5f9;
+    }
+    .file-drop-area input[type="file"] {
+      display: none;
+    }
+    .file-label {
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: underline;
+    }
+    .file-desc { font-size: 0.8rem; color: var(--text-gray); margin-top: 4px; }
+    .file-name {
+      display: block;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: #10B981;
+      font-weight: 600;
+    }
+    #loading-overlay {
+      position: fixed; inset: 0; background: rgba(255,255,255,0.9);
+      z-index: 1000; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; transition: 0.3s;
+    }
+    #loading-overlay.active { opacity: 1; visibility: visible; }
+    .spinner {
+      width: 40px; height: 40px; border: 4px solid var(--border);
+      border-top-color: var(--primary); border-radius: 50%;
+      animation: spin 1s linear infinite; margin-bottom: 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo-text">
+        <a href="/">
+          <img src="/logosinfondo.png" alt="Broker" class="header-logo">
+        </a>
+      </div>
+      
+      <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav" id="main-nav">
+        <a href="./portafolio.html" data-i18n="nav_portafolio">Portafolio</a>
+        <a href="./solicitudcredito.html" class="active-nav" style="font-weight: 700; color: var(--primary);" data-i18n="nav_credito">Obtén un crédito</a>
+        <a href="https://guiadefranquicias.com" target="_blank" data-i18n="nav_franquicia">Consigue una franquicia</a>
+      </nav>
+      <div class="header-right" id="header-right">
+        <div class="lang-selector-wrapper" style="position: relative;">
+          <div class="lang-selector" id="lang-selector-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#6B7280" stroke-width="1.5"/><path d="M2 12H22M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2Z" stroke="#6B7280" stroke-width="1.5"/></svg>
+            <span id="current-lang-name">México</span>
+          </div>
+          <div class="lang-dropdown" id="lang-dropdown">
+            <a href="#" class="lang-option active" data-lang="es">Español</a>
+            <a href="#" class="lang-option" data-lang="en">English</a>
+          </div>
+        </div>
+        <a href="https://dashboard.broker.com.mx" class="btn-outline-dark" data-i18n="nav_entrar">Entrar</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <div class="container">
+        <div class="credit-box slide-in visible">
+          <span class="badge" style="background: #10B981;" data-i18n="credit_badge">SOLICITUD</span>
+          <h2 style="font-size: 2rem; margin-bottom: 8px;" data-i18n="credit_title">Crédito Hipotecario</h2>
+          <p class="text-gray" style="margin-bottom: 32px;" data-i18n="credit_subtitle">Por favor completa la información para pre-calificarte al instante. Tus datos están cifrados y seguros con nosotros.</p>
+          
+          <form id="solicitud-form">
+            <div class="form-group">
+              <label for="f-nombre" data-i18n="label_name">Nombre Completo</label>
+              <input type="text" id="f-nombre" name="nombre" required placeholder="Ej. Juan Pérez" data-i18n="label_name">
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="f-correo" data-i18n="label_email">Correo Electrónico</label>
+                <input type="email" id="f-correo" name="correo" required placeholder="juan@ejemplo.com" data-i18n="label_email">
+              </div>
+              <div class="form-group">
+                <label for="f-telefono" data-i18n="label_phone">Teléfono</label>
+                <input type="tel" id="f-telefono" name="telefono" required placeholder="55 1234 5678" data-i18n="label_phone">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="f-curp" data-i18n="label_curp">CURP</label>
+                <input type="text" id="f-curp" name="curp" required placeholder="Ingresa tu CURP de 18 caracteres" style="text-transform: uppercase;" data-i18n="label_curp">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="f-direccion" data-i18n="label_address">Dirección completa</label>
+              <input type="text" id="f-direccion" name="direccion" required placeholder="Calle, Número, Colonia, Código Postal, Ciudad y Estado" data-i18n="label_address">
+            </div>
+
+            <div style="margin: 32px 0 16px; border-top: 1px solid var(--border); padding-top: 24px;">
+              <h4 style="margin-bottom: 8px;" data-i18n="label_docs">Documentación Oficial</h4>
+              <p class="text-gray" style="font-size: 0.85rem; margin-bottom: 16px;" data-i18n="label_docs_desc">Sube una foto clara de tu identificación oficial (INE). Formatos aceptados: JPG, PNG. El tamaño máximo por foto es de 600MB.</p>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label data-i18n="label_ine_front">Fotografía INE (Frente)</label>
+                <div class="file-drop-area" onclick="document.getElementById('f-ine-frente').click()">
+                  <span class="file-label" data-i18n="choose_file">Elegir archivo</span> o suelta tu imagen aquí
+...
+                  <div class="file-desc">Máx. 600MB</div>
+                  <input type="file" id="f-ine-frente" accept="image/png, image/jpeg, image/jpg" required>
+                  <span class="file-name" id="name-ine-frente"></span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label data-i18n="label_ine_back">Fotografía INE (Reverso)</label>
+                <div class="file-drop-area" onclick="document.getElementById('f-ine-atras').click()">
+                  <span class="file-label" data-i18n="choose_file">Elegir archivo</span> o suelta tu imagen aquí
+                  <div class="file-desc">Máx. 600MB</div>
+                  <input type="file" id="f-ine-atras" accept="image/png, image/jpeg, image/jpg" required>
+                  <span class="file-name" id="name-ine-atras"></span>
+                </div>
+              </div>
+            </div>
+
+            <input type="hidden" id="f-propiedad-id" name="propiedad_id">
+
+            <div id="form-error" class="text-gray" style="color: #DC2626; font-size: 0.9rem; margin-top: 16px; display: none;">Error de validación. Revisa los campos.</div>
+            
+            <button type="submit" class="btn btn-dark" style="width: 100%; margin-top: 32px; padding: 18px; font-size: 1.1rem;" data-i18n="btn_send_request">Enviar Solicitud de Evaluación</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- LOADING SPINNER -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <h3>Procesando...</h3>
+    <p class="text-gray">Subiendo tus documentos de forma encriptada y segura.</p>
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-bottom" style="border-top: none; padding-top: 0;">
+      <div class="f-logo">
+        <span data-i18n="footer_copyright">© 2026 broker.com.mx</span>
+      </div>
+      <div class="f-legal">
+        <a href="#" data-i18n="footer_privacy">Privacidad</a>
+        <a href="#" data-i18n="footer_terms_conditions">Términos y condiciones</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./i18n.js"></script>
+  <script type="module" src="./menu-shared.js"></script>
+  <script type="module" src="./solicitudcredito.js"></script>
+</body>
+</html>

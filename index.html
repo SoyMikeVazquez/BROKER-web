@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Broker - Landing Page</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo-text">
+        <a href="#">
+          <img src="/logosinfondo.png" alt="Broker" class="header-logo">
+        </a>
+      </div>
+      
+      <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav" id="main-nav">
+        <a href="./portafolio.html" data-i18n="nav_portafolio">Portafolio</a>
+        <a href="./solicitudcredito.html" data-i18n="nav_credito">Obtén un crédito</a>
+        <a href="https://guiadefranquicias.com" target="_blank" data-i18n="nav_franquicia">Consigue una franquicia</a>
+      </nav>
+      <div class="header-right" id="header-right">
+        <div class="lang-selector-wrapper" style="position: relative;">
+          <div class="lang-selector" id="lang-selector-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#6B7280" stroke-width="1.5"/><path d="M2 12H22M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2Z" stroke="#6B7280" stroke-width="1.5"/></svg>
+            <span id="current-lang-name">México</span>
+          </div>
+          <div class="lang-dropdown" id="lang-dropdown">
+            <a href="#" class="lang-option active" data-lang="es">Español</a>
+            <a href="#" class="lang-option" data-lang="en">English</a>
+          </div>
+        </div>
+        <a href="https://dashboard.broker.com.mx" class="btn-outline-dark" data-i18n="nav_entrar">Entrar</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero slide-in" id="inicio">
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <div class="hero-badge fade-up" data-i18n="hero_badge">
+            <span class="dot"></span> Oportunidades exclusivas de inversión
+          </div>
+          <h1 class="hero-title fade-up" data-i18n="hero_title">
+            Encuentra tu próximo<br>
+            <strong>proyecto inmobiliario</strong><br>
+            <span class="hero-highlight">ideal aquí</span>
+          </h1>
+          <p class="hero-subtitle fade-up" data-i18n="hero_subtitle">
+            Invierte en los mejores desarrollos, casas, departamentos, franquicias y edificios corporativos con la mayor plusvalía comprobada.
+          </p>
+          <div class="hero-actions fade-up">
+            <a href="./portafolio.html" class="btn btn-dark" data-i18n="btn_explore">Explorar portafolio &rarr;</a>
+            <a href="./solicitudcredito.html" class="btn btn-white" data-i18n="btn_request_credit">Solicitar crédito</a>
+          </div>
+          
+          <div class="hero-stats fade-up">
+            <div class="stat"><span class="stat-num">+20</span><span class="stat-label" data-i18n="stats_developments">DESARROLLOS</span></div>
+            <div class="stat"><span class="stat-num">+30</span><span class="stat-label" data-i18n="stats_projects">PROYECTOS</span></div>
+            <div class="stat"><span class="stat-num">98%</span><span class="stat-label" data-i18n="stats_satisfaction">SATISFACCIÓN</span></div>
+          </div>
+        </div>
+        <div class="hero-mockup fade-up">
+          <img src="/ewewe.webp" alt="Dashboard Preview" style="width: 100%; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+        </div>
+      </div>
+    </section>
+
+    <!-- PROYECTOS SECTION -->
+    <section class="proyectos slide-in" id="caracteristicas">
+      <div class="container proyectos-inner">
+        <div class="proyectos-mockup fade-right">
+          <div class="kanban-board">
+            <div class="kanban-col">
+              <h4>NUEVO (5)</h4>
+              <div class="k-card">Ana García<br><small>Inmuebles Madrid</small></div>
+              <div class="k-card">Luis Rodríguez<br><small>Remax Prime</small></div>
+            </div>
+            <div class="kanban-col">
+              <h4>CONTACTADO (35)</h4>
+              <div class="k-card">Javier Sanz<br><small>Atalaya Propiedades</small></div>
+              <div class="k-card">Elena Ruiz<br><small>Keller Williams</small></div>
+            </div>
+            <div class="kanban-col">
+              <h4>ACTIVO (57)</h4>
+              <div class="k-card">Roberto Fernández<br><small>Inmobiliaria Sol</small></div>
+              <div class="k-card">Laura Castro<br><small>Habitat Madrid</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="proyectos-text fade-left">
+          <span class="badge">DESARROLLOS</span>
+          <h2>Oportunidades que <span class="text-gray">transforman tu capital</span></h2>
+          <p>Descubre edificios, franquicias y plazas comerciales con alto retorno de inversión garantizado, diseñados para generar rendimientos pasivos estables.</p>
+          <a href="#" class="link-arrow">Ver desarrollos &rarr;</a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- PROPIEDADES DESTACADAS (SUPABASE) -->
+    <section class="propiedades-destacadas slide-in">
+      <div class="container" style="max-width: 1400px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px;">
+          <div>
+            <span class="badge" data-i18n="section_exclusive">EXCLUSIVO</span>
+            <h2 style="margin-bottom: 8px;" data-i18n="section_properties_title">Propiedades Destacadas</h2>
+            <p style="margin-bottom: 0;" data-i18n="section_properties_subtitle">Encuentra la casa o el departamento de tus sueños dentro de nuestro portafolio premium verificado.</p>
+          </div>
+          <a href="./portafolio.html" class="link-arrow" style="margin-bottom: 8px;" data-i18n="section_view_all">Ver portafolio completo &rarr;</a>
+        </div>
+        
+        <div class="propiedades-slider" id="supabase-properties">
+           <!-- Loaded from Supabase via main.js -->
+           <p class="text-gray" style="padding: 24px;">Conectando a base de datos segura y cargando propiedades...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANÁLISIS DE MERCADO SECTION -->
+
+    <section class="analisis slide-in">
+      <div class="container analisis-inner">
+        <div class="analisis-text fade-right">
+          <span class="badge">ASESORÍA EXPERTA</span>
+          <h2>Encuentra la propiedad <span class="text-gray">ideal para ti</span></h2>
+          <p>Nuestros agentes te brindan análisis detallados del mercado para asegurar que tu inversión genere la máxima plusvalía en el sector residencial o corporativo.</p>
+          <a href="#" class="link-arrow">Hablar con un experto &rarr;</a>
+        </div>
+        <div class="analisis-mockup fade-left">
+          <div class="estimate-popup">
+            <h4>Análisis comparativo de mercado <span class="close-icon">&times; Cerrar</span></h4>
+            <p class="subtitle">Zibatá • Departamento • 84 m²</p>
+            <div class="estimate-value">VALOR ESTIMADO</div>
+            <div class="estimate-bars">
+              <div class="bar bar-min"><small>$2.1M</small><br>Mínimo</div>
+              <div class="bar bar-avg active"><small>$2.5M &uarr;</small><br>Promedio</div>
+              <div class="bar bar-max"><small>$3.3M</small><br>Máximo</div>
+            </div>
+            <div class="estimate-m2">
+              <strong>VALOR POR M²</strong><br>
+              <span class="avg-m2">Promedio: $29,762 MXN/m²</span>
+              <span class="min-max-m2">Mín: $25,000 / Max: $39,285</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SITIOS WEB SECTION -->
+    <section class="sitios slide-in">
+      <div class="container sitios-inner">
+        <div class="sitios-text fade-right">
+          <span class="badge">DIVERSIDAD</span>
+          <h2>Casas, departamentos y <span class="text-gray">centros de negocios</span></h2>
+          <p>Contamos con un catálogo diverso que se adapta a tus metas: ya sea encontrar el lugar perfecto para vivir en familia o un edificio para expandir tus oficinas corporativas.</p>
+          <a href="#" class="link-arrow">Explorar opciones &rarr;</a>
+        </div>
+        <div class="sitios-mockup fade-left">
+          <div class="device-desktop">
+            <div class="d-header">Mi Inmobiliaria</div>
+            <div class="d-hero">Encuentra tu próxima casa</div>
+          </div>
+          <div class="device-mobile">
+            <div class="m-header">Mi Inmobiliaria</div>
+            <div class="m-hero">Encuentra tu<br>próxima casa</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOLSA INMOBILIARIA -->
+    <section class="bolsa slide-in">
+      <div class="container bolsa-inner">
+        <div class="bolsa-mockup fade-right">
+          <div class="map-mockup">
+            <div class="prop-list">
+              <div class="p-card"><strong>$9,800,000 MXN</strong><br><small>Polanco</small></div>
+              <div class="p-card"><strong>$7,200,000 MXN</strong><br><small>Roma Norte</small></div>
+            </div>
+            <div class="map-area">
+              <div class="map-pin" style="top: 30%; left: 40%;">$9.8M</div>
+              <div class="map-pin" style="top: 60%; left: 60%;">$7.2M</div>
+            </div>
+          </div>
+        </div>
+        <div class="bolsa-text fade-left">
+          <span class="badge">ALCANCE NACIONAL</span>
+          <h2>Presencia en las mejores <span class="text-gray">ubicaciones del país</span></h2>
+          <p>Accede a proyectos estratégicamente desarrollados en zonas de alto crecimiento económico, brindándole solidez y certidumbre a tu patrimonio.</p>
+          <a href="#" class="link-arrow">Conocer ubicaciones &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARTIR -->
+    <section class="compartir slide-in">
+      <div class="container compartir-inner">
+        <div class="compartir-text fade-right">
+          <span class="badge">TRANSPARENCIA TOTAL</span>
+          <h2>Un proceso de compra <span class="text-gray">ágil y totalmente seguro</span></h2>
+          <p>Te acompañamos en todo momento. Facilitamos simuladores de crédito, pre-calificación instantánea y te garantizamos documentación 100% regulada.</p>
+          <a href="#" class="link-arrow">Conocer requisitos de compra &rarr;</a>
+        </div>
+        <div class="compartir-mockup fade-left">
+          <div class="share-popup">
+            <h4>Compartir propiedad <span class="close-icon">&times;</span></h4>
+            <a href="https://wa.me/528118171792?text=Hola,%20me%20interesa%20obtener%20informaci%C3%B3n" target="_blank" rel="noopener noreferrer" class="s-btn whatsapp">Enviar por WhatsApp</a>
+            <div class="s-btn outline">Copiar enlace</div>
+            <div class="s-btn outline">X / Twitter en X</div>
+            <div class="s-btn outline">Compartir en Facebook</div>
+            <div class="s-btn outline">Enviar por Correo</div>
+            <div class="s-btn outline">Descargar PDF</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOPORTE SECTION -->
+    <section class="soporte slide-in">
+      <div class="container soporte-inner">
+        <div class="soporte-text fade-right">
+          <h2>Expertos listos<br>para <span class="text-gray" style="text-decoration: underline;">asesorarte</span></h2>
+          <p>Nuestro equipo corporativo calificado te brindará atención humana y personalizada para resolver cualquier duda y guiarte hasta la entrega de tus llaves.</p>
+
+        </div>
+        <div class="soporte-team fade-left">
+          <div class="team-grid">
+            <div class="avatar"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=150&h=150" alt="Soporte 1"></div>
+            <div class="avatar"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150&h=150" alt="Soporte 2"></div>
+            <div class="avatar"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150&h=150" alt="Soporte 3"></div>
+            <div class="avatar"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150&h=150" alt="Soporte 4"></div>
+            <div class="avatar"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=150&h=150" alt="Soporte 5"></div>
+            <div class="avatar"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=150&h=150" alt="Soporte 6"></div>
+            <div class="avatar"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150" alt="Soporte 7"></div>
+            <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150" alt="Soporte 8"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section class="testimonios slide-in">
+      <div class="container">
+        <h2 class="text-center">Cientos de inversionistas<br>respaldan nuestro trabajo</h2>
+        <div class="stars text-center">⭐ ⭐ ⭐ ⭐ ⭐ <strong>Calificación máxima en satisfacción</strong></div>
+        <p class="text-center text-gray">Recomendado por clientes exigentes en todo México.</p>
+        
+        <div class="testimonial-card fade-up">
+          <p class="quote">"Increíble retorno de inversión. He adquirido dos departamentos y estoy sumamente feliz con los resultados; el proceso de escrituración fue rapidísimo y fácil de entender."</p>
+          <div class="author">
+            <div class="author-avatar">CM</div>
+            <div class="author-info">
+              <strong>Carlos Mendoza</strong><br>
+              <small>CLIENTE SATISFECHO</small>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button class="c-btn">&larr;</button>
+          <button class="c-btn">&rarr;</button>
+          <div class="dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- PROPERTY MODAL -->
+    <div id="property-modal" class="modal-overlay hidden">
+      <div class="modal-container slide-in visible">
+        <button id="close-modal" class="modal-close">&times;</button>
+        
+        <div class="modal-grid">
+          <!-- Property Info -->
+          <div class="modal-prop-info">
+            <div class="modal-img-wrapper">
+              <img id="modal-img" src="" alt="Property">
+            </div>
+            <div class="modal-details-wrapper">
+              <h2 id="modal-precio" class="modal-price"></h2>
+              <h3 id="modal-titulo" class="modal-title"></h3>
+              <p id="modal-ubicacion" class="modal-location text-gray"></p>
+              <div class="modal-features">
+                <span id="modal-habs"></span>
+                <span id="modal-banos"></span>
+                <span id="modal-m2"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Panel with Tabs -->
+          <div class="modal-credit-form">
+            <div class="modal-tabs">
+              <button class="modal-tab-btn active" id="tab-contact-btn">Contactar</button>
+              <button class="modal-tab-btn" id="tab-credit-btn">Financiamiento</button>
+            </div>
+
+            <!-- Tab: Contactar -->
+            <div id="tab-contact-content" class="modal-tab-content active">
+              <form id="modal-contact-form" class="contact-form">
+                <div class="form-group">
+                  <label for="contact-name">Nombre completo</label>
+                  <input type="text" id="contact-name" required placeholder="Ej. Ana García">
+                </div>
+                <div class="form-group">
+                  <label for="contact-email">Correo electrónico</label>
+                  <input type="email" id="contact-email" required placeholder="Ej. ana@correo.com">
+                </div>
+                <div class="form-group">
+                  <label for="contact-phone">Teléfono</label>
+                  <input type="tel" id="contact-phone" required placeholder="Ej. 5512345678">
+                </div>
+                <div class="form-group">
+                  <label for="contact-message">Mensaje</label>
+                  <textarea id="contact-message" required placeholder="Me gustaría recibir más información sobre este inmueble..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit" id="btn-submit-contact">
+                  <div class="spinner"></div>
+                  <span>Enviar mensaje</span>
+                </button>
+              </form>
+              <div id="contact-success-msg" class="success-message" style="display: none;">
+                <div class="success-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <h4 class="success-title">¡Mensaje enviado!</h4>
+                <p class="success-text">Hemos recibido tus datos correctamente. Un asesor se pondrá en contacto contigo a la brevedad.</p>
+              </div>
+            </div>
+
+            <!-- Tab: Financiamiento -->
+            <div id="tab-credit-content" class="modal-tab-content">
+              <span class="badge" style="background: #10B981; max-width: max-content; align-self: flex-start;">FINANCIAMIENTO</span>
+              <h4 style="font-size: 1.5rem; margin-bottom: 16px;">Financia tu Propiedad</h4>
+              <p class="text-gray" style="font-size: 1.1rem; margin-bottom: 32px; line-height: 1.6;">
+                Adquiere este inmueble con las mejores condiciones hipotecarias del mercado. Te pre-calificamos en línea y te asesoramos durante todo el trámite sin costo alguno.
+              </p>
+              
+              <a id="btn-solicitar-cred" href="./solicitudcredito.html" class="btn btn-dark" style="text-align: center; font-size: 1.1rem; padding: 18px; width: 100%;">
+                Tramitar solicitud de crédito
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer fade-in">
+    <div class="container footer-inner">
+      <div class="f-col">
+        <h4>INMOBILIARIOS</h4>
+        <a href="#">Inicio</a>
+        <a href="#">Gestión de proyectos</a>
+        <a href="#">Análisis comparativo</a>
+        <a href="#">Bolsa Inmobiliaria</a>
+        <a href="#">Gestión de inventario</a>
+        <a href="#">Sitios web</a>
+        <a href="#">Precios</a>
+      </div>
+      <div class="f-col">
+        <h4>SOPORTE Y RECURSOS</h4>
+        <a href="#">Ayuda</a>
+        <a href="#">API para programadores</a>
+        <a href="#">Gestión de proyectos inmobiliarios</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="f-col">
+        <h4>BUSCAR INMUEBLES</h4>
+        <a href="#">Buscar inmuebles</a>
+        <a href="#">Departamentos en venta</a>
+        <a href="#">Departamentos en renta</a>
+        <a href="#">Casas en venta</a>
+        <a href="#">Casas en renta</a>
+      </div>
+      <div class="f-col">
+        <h4>SOBRE BROKER.COM.MX</h4>
+        <a href="#">¿Quiénes somos?</a>
+        <a href="#">Recursos de la marca</a>
+        <a href="#">Carreras</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div class="f-logo">
+        <span data-i18n="footer_copyright">© 2026 broker.com.mx</span>
+      </div>
+      <div class="f-legal">
+        <a href="#" data-i18n="footer_privacy">Privacidad</a>
+        <a href="#" data-i18n="footer_terms">Términos</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./i18n.js"></script>
+  <script type="module" src="./menu-shared.js"></script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

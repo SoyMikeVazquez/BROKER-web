@@ -1,0 +1,17 @@
+import { resolve, dirname } from 'path'
+import { fileURLToPath } from 'url'
+import { defineConfig } from 'vite'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        portafolio: resolve(__dirname, 'portafolio.html'),
+        solicitudcredito: resolve(__dirname, 'solicitudcredito.html')
+      }
+    }
+  }
+})

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Broker - Portafolio Inmobiliario</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .portfolio-section {
+      padding: 64px 0 100px;
+      background: var(--bg-light);
+      min-height: calc(100vh - 200px);
+    }
+    .portfolio-header {
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    .portfolio-header h1 {
+      font-size: 3rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+    }
+    .portfolio-grid-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .filters-sidebar {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      position: sticky;
+      top: 100px;
+      z-index: 10;
+    }
+    @media (max-width: 900px) {
+      .portfolio-grid-layout {
+        grid-template-columns: 1fr;
+      }
+      .filters-sidebar {
+        position: relative;
+        top: 0;
+        margin-bottom: 32px;
+        z-index: 1;
+      }
+      .portfolio-header h1 {
+        font-size: 2rem;
+      }
+      .portfolio-section {
+        padding: 32px 0 64px;
+      }
+    }
+    .filters-sidebar h3 {
+      font-size: 1.2rem;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .filter-group {
+      margin-bottom: 20px;
+    }
+    .filter-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+    .filter-group input, .filter-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+    .filter-group input:focus, .filter-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .properties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 64px 24px;
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      color: var(--text-gray);
+    }
+    
+    /* Reuse prop-card-large styles locally for grid */
+    .prop-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .prop-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+    }
+    .prop-img-wrapper {
+      height: 220px;
+      width: 100%;
+      background: var(--bg-light);
+    }
+    .prop-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .prop-card-content {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .prop-price {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .prop-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .prop-location {
+      font-size: 0.85rem;
+      color: var(--text-gray);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .prop-features {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-gray);
+      font-weight: 500;
+    }
+    #loading-state {
+      text-align: center;
+      padding: 100px 0;
+      grid-column: 1 / -1;
+    }
+  </style>
+</head>
+<body>
+  
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo-text">
+        <a href="/">
+          <img src="/logosinfondo.png" alt="Broker" class="header-logo">
+        </a>
+      </div>
+      
+      <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav" id="main-nav">
+        <a href="./portafolio.html" class="active-nav" style="font-weight: 700; color: var(--primary);" data-i18n="nav_portafolio">Portafolio</a>
+        <a href="./solicitudcredito.html" data-i18n="nav_credito">Obtén un crédito</a>
+        <a href="https://guiadefranquicias.com" target="_blank" data-i18n="nav_franquicia">Consigue una franquicia</a>
+      </nav>
+      <div class="header-right" id="header-right">
+        <div class="lang-selector-wrapper" style="position: relative;">
+          <div class="lang-selector" id="lang-selector-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#6B7280" stroke-width="1.5"/><path d="M2 12H22M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2Z" stroke="#6B7280" stroke-width="1.5"/></svg>
+            <span id="current-lang-name">México</span>
+          </div>
+          <div class="lang-dropdown" id="lang-dropdown">
+            <a href="#" class="lang-option active" data-lang="es">Español</a>
+            <a href="#" class="lang-option" data-lang="en">English</a>
+          </div>
+        </div>
+        <a href="https://dashboard.broker.com.mx" class="btn-outline-dark" data-i18n="nav_entrar">Entrar</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="portfolio-section">
+      <div class="container">
+        <div class="portfolio-header slide-in visible">
+          <h1 data-i18n="portfolio_title">Portafolio Inmobiliario</h1>
+          <p class="text-gray" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;" data-i18n="portfolio_subtitle">Explora nuestra selección curada de propiedades exclusivas, desarrollos y franquicias de alto rendimiento.</p>
+        </div>
+
+        <div class="portfolio-grid-layout slide-in visible">
+          <!-- SIDEBAR DE FILTROS -->
+          <aside class="filters-sidebar">
+            <h3 data-i18n="filter_title">Filtros de Búsqueda</h3>
+            
+            <div class="filter-group">
+              <label for="filter-search" data-i18n="filter_keyword">Palabra clave</label>
+              <input type="text" id="filter-search" placeholder="Ej. Polanco, Casa, Lujo..." data-i18n="filter_keyword">
+            </div>
+            
+            <div class="filter-group">
+              <label data-i18n="filter_budget">Presupuesto (MXN)</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="number" id="filter-min-price" placeholder="Mínimo" step="100000">
+                <input type="number" id="filter-max-price" placeholder="Máximo" step="100000">
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label for="filter-habs" data-i18n="filter_rooms">Habitaciones (Mínimo)</label>
+              <select id="filter-habs">
+                <option value="0" data-i18n="any_option">Cualquiera</option>
+                <option value="1">1+</option>
+                <option value="2">2+</option>
+                <option value="3">3+</option>
+                <option value="4">4+</option>
+              </select>
+            </div>
+
+            <div class="filter-group" style="margin-bottom: 32px;">
+              <label for="filter-banos" data-i18n="filter_bathrooms">Baños (Mínimo)</label>
+              <select id="filter-banos">
+                <option value="0" data-i18n="any_option">Cualquiera</option>
+                <option value="1">1+</option>
+                <option value="2">2+</option>
+                <option value="3">3+</option>
+              </select>
+            </div>
+
+            <button id="btn-apply-filters" class="btn btn-dark" style="width: 100%;" data-i18n="btn_apply_filters">Aplicar Filtros</button>
+            <button id="btn-reset-filters" class="btn btn-white" style="width: 100%; margin-top: 12px; background: transparent;" data-i18n="btn_reset_filters">Limpiar Filtros</button>
+          </aside>
+
+          <!-- GRID DE PROPIEDADES -->
+          <div class="properties-grid" id="portfolio-grid">
+            <div id="loading-state">
+              <h3 class="text-gray" data-i18n="loading_portfolio">Cargando portafolio desde la base de datos segura...</h3>
+            </div>
+            <!-- Propiedades cargadas vía JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL (Misma estructura que inicio, pero sin formulario, solo botón de CTA) -->
+    <div id="property-modal" class="modal-overlay hidden">
+      <div class="modal-container">
+        <button id="close-modal" class="modal-close">&times;</button>
+        
+        <div class="modal-grid">
+          <div class="modal-prop-info">
+            <div class="modal-img-wrapper">
+              <img id="modal-img" src="" alt="Property">
+            </div>
+            <div class="modal-details-wrapper">
+              <h2 id="modal-precio" class="modal-price"></h2>
+              <h3 id="modal-titulo" class="modal-title"></h3>
+              <p id="modal-ubicacion" class="modal-location text-gray"></p>
+              <div class="modal-features">
+                <span id="modal-habs"></span>
+                <span id="modal-banos"></span>
+                <span id="modal-m2"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Panel with Tabs -->
+          <div class="modal-credit-form">
+            <div class="modal-tabs">
+              <button class="modal-tab-btn active" id="tab-contact-btn">Contactar</button>
+              <button class="modal-tab-btn" id="tab-credit-btn">Financiamiento</button>
+            </div>
+
+            <!-- Tab: Contactar -->
+            <div id="tab-contact-content" class="modal-tab-content active">
+              <form id="modal-contact-form" class="contact-form">
+                <div class="form-group">
+                  <label for="contact-name">Nombre completo</label>
+                  <input type="text" id="contact-name" required placeholder="Ej. Ana García">
+                </div>
+                <div class="form-group">
+                  <label for="contact-email">Correo electrónico</label>
+                  <input type="email" id="contact-email" required placeholder="Ej. ana@correo.com">
+                </div>
+                <div class="form-group">
+                  <label for="contact-phone">Teléfono</label>
+                  <input type="tel" id="contact-phone" required placeholder="Ej. 5512345678">
+                </div>
+                <div class="form-group">
+                  <label for="contact-message">Mensaje</label>
+                  <textarea id="contact-message" required placeholder="Me gustaría recibir más información sobre este inmueble..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit" id="btn-submit-contact">
+                  <div class="spinner"></div>
+                  <span>Enviar mensaje</span>
+                </button>
+              </form>
+              <div id="contact-success-msg" class="success-message" style="display: none;">
+                <div class="success-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <h4 class="success-title">¡Mensaje enviado!</h4>
+                <p class="success-text">Hemos recibido tus datos correctamente. Un asesor se pondrá en contacto contigo a la brevedad.</p>
+              </div>
+            </div>
+
+            <!-- Tab: Financiamiento -->
+            <div id="tab-credit-content" class="modal-tab-content">
+              <span class="badge" style="background: #10B981; max-width: max-content; align-self: flex-start;">FINANCIAMIENTO</span>
+              <h4 style="font-size: 1.5rem; margin-bottom: 16px;">Financia tu Propiedad</h4>
+              <p class="text-gray" style="font-size: 1.1rem; margin-bottom: 32px; line-height: 1.6;">
+                Adquiere este inmueble con las mejores condiciones hipotecarias del mercado. Te pre-calificamos en línea y te asesoramos durante todo el trámite sin costo alguno.
+              </p>
+              
+              <a id="btn-solicitar-cred" href="./solicitudcredito.html" class="btn btn-dark" style="text-align: center; font-size: 1.1rem; padding: 18px; width: 100%;">
+                Tramitar solicitud de crédito
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-bottom" style="border-top: none; padding-top: 0;">
+      <div class="f-logo">
+        <span data-i18n="footer_copyright">© 2026 broker.com.mx</span>
+      </div>
+      <div class="f-legal">
+        <a href="#" data-i18n="footer_privacy">Privacidad</a>
+        <a href="#" data-i18n="footer_terms_conditions">Términos y condiciones</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./i18n.js"></script>
+  <script type="module" src="./menu-shared.js"></script>
+  <script type="module" src="./portafolio.js"></script>
+</body>
+</html>
